@@ -13,7 +13,7 @@ const useRestaurantMenu = (id) => {
     
 
     const fetchInfo = async () => {
-         const data = await fetch("http://localhost:5000/api/restaurant/" + id);
+         const data = await fetch("https://foodapp-backend-es5d.onrender.com/api/restaurants" + id);
          const json = await data.json();
          console.log("json data is ", json.data);
          
