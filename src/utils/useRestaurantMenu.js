@@ -13,7 +13,7 @@ const useRestaurantMenu = (id) => {
     
 
     const fetchInfo = async () => {
-         const data = await fetch(`https://foodapp-backend-es5d.onrender.com/api/restaurant/${id}`);
+         const data = await fetch(`https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=26.83730&lng=80.91650&restaurantId=${restaurantId}&catalog_qa=undefined`);
          const json = await data.json();
          console.log("json data is ", json.data);
          

@@ -24,7 +24,7 @@ const Body = () => {
             //  );
             //  const json = await data.json();
             //  console.log(json);
-            const swiggyAPI = "https://foodapp-backend-es5d.onrender.com/api/restaurants"; // your actual URL
+            const swiggyAPI = "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5355161&lng=77.3910265&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"; // your actual URL
 
             
             // const proxy = "https://corsproxy.io/?";
