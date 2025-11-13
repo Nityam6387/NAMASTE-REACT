@@ -24,7 +24,7 @@ const Body = () => {
             //  );
             //  const json = await data.json();
             //  console.log(json);
-            const swiggyAPI = "http://localhost:5000/api/restaurants"; // your actual URL
+            const swiggyAPI = "https://foodapp-backend-es5d.onrender.com/api/restaurants"; // your actual URL
 
             
             // const proxy = "https://corsproxy.io/?";
