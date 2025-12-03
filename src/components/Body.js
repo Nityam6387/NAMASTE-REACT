@@ -24,8 +24,8 @@ const Body = () => {
             //  );
             //  const json = await data.json();
             //  console.log(json);
-            const swiggyAPI = "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5355161&lng=77.3910265&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"; // your actual URL
-
+            // const swiggyAPI = "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5355161&lng=77.3910265&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"; // your actual URL
+            const swiggyAPI = "http://localhost:5000/api/restaurants" ;
             
             // const proxy = "https://corsproxy.io/?";
 

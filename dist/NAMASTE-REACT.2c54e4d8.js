@@ -94,7 +94,54 @@
 
     function localRequire(x) {
       var res = localRequire.resolve(x);
-      return res === false ? {} : newRequire(res);
+      if (res === false) {
+        return {};
+      }
+      // Synthesize a module to follow re-exports.
+      if (Array.isArray(res)) {
+        var m = {__esModule: true};
+        res.forEach(function (v) {
+          var key = v[0];
+          var id = v[1];
+          var exp = v[2] || v[0];
+          var x = newRequire(id);
+          if (key === '*') {
+            Object.keys(x).forEach(function (key) {
+              if (
+                key === 'default' ||
+                key === '__esModule' ||
+                Object.prototype.hasOwnProperty.call(m, key)
+              ) {
+                return;
+              }
+
+              Object.defineProperty(m, key, {
+                enumerable: true,
+                get: function () {
+                  return x[key];
+                },
+              });
+            });
+          } else if (exp === '*') {
+            Object.defineProperty(m, key, {
+              enumerable: true,
+              value: x,
+            });
+          } else {
+            Object.defineProperty(m, key, {
+              enumerable: true,
+              get: function () {
+                if (exp === 'default') {
+                  return x.__esModule ? x.default : x;
+                }
+                return x[exp];
+              },
+            });
+          }
+        });
+        return m;
+      }
+      return newRequire(res);
     }
 
     function resolve(x) {
@@ -848,7 +895,7 @@ $RefreshReg$(_c1, "AppLayout");
   globalThis.$RefreshReg$ = prevRefreshReg;
   globalThis.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-dom/client":"hrvwu","./components/Header":"3PJ6N","./components/Body":"loQlg","./components/About":"bv2mH","./components/Cart.js":"h9Vh3","./utils/UserContext.js":"8LxkN","./components/RestaurantMenu.js":"b9jHD","react-redux":"hbNxT","./utils/appStore.js":"dpIkN","react-router-dom":"61z4w","71c9d1ce5bc8ee49":"baeVm","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi","./components/Contact.js":"asQvq"}],"dVPUn":[function(require,module,exports,__globalThis) {
+},{"react/jsx-dev-runtime":"dVPUn","react":"jMk1U","react-dom/client":"hrvwu","./components/Header":"3PJ6N","./components/Body":"loQlg","./components/About":"bv2mH","./components/Cart.js":"h9Vh3","./components/Contact.js":"asQvq","./utils/UserContext.js":"8LxkN","./components/RestaurantMenu.js":"b9jHD","react-redux":"hbNxT","./utils/appStore.js":"dpIkN","react-router-dom":"61z4w","71c9d1ce5bc8ee49":"baeVm","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"dVPUn":[function(require,module,exports,__globalThis) {
 'use strict';
 module.exports = require("ee51401569654d91");
 
@@ -35900,7 +35947,8 @@ const Body = ()=>{
         //  );
         //  const json = await data.json();
         //  console.log(json);
-        const swiggyAPI = "http://localhost:5000/api/restaurants"; // your actual URL
+        // const swiggyAPI = "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5355161&lng=77.3910265&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"; // your actual URL
+        const swiggyAPI = "http://localhost:5000/api/restaurants";
         // const proxy = "https://corsproxy.io/?";
         // fetch(proxy + encodeURIComponent(swiggyAPI))
         //   .then(res => res.json())
@@ -35972,6 +36020,7 @@ const Body = ()=>{
                     className: "",
                     children: [
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                            "data-testid": "searchInput",
                             className: "border border-b-black px-5",
                             type: "text",
                             value: searchList,
@@ -36103,6 +36152,7 @@ const RestaurantCard = (props)=>{
     const { cloudinaryImageId, avgRating, costForTwo, cuisines, sla } = resData; //destructuring the object
     const baseURL = "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660";
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        "data-testid": "resCard",
         className: "res-card m-2 sm:m-3 md:m-4 p-3 sm:p-4 w-full sm:w-[280px] md:w-[300px] lg:w-[320px] rounded-lg bg-gray-100 hover:bg-gray-200 transition-all duration-200 hover:shadow-lg hover:scale-105",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
@@ -40947,7 +40997,81 @@ function createThunkMiddleware(extraArgument) {
 var thunk = createThunkMiddleware();
 var withExtraArgument = createThunkMiddleware;
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"b9jHD":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"asQvq":[function(require,module,exports,__globalThis) {
+var $parcel$ReactRefreshHelpers$34fd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+$parcel$ReactRefreshHelpers$34fd.init();
+var prevRefreshReg = globalThis.$RefreshReg$;
+var prevRefreshSig = globalThis.$RefreshSig$;
+$parcel$ReactRefreshHelpers$34fd.prelude(module);
+
+try {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+var _jsxDevRuntime = require("react/jsx-dev-runtime");
+const Contact = ()=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                className: "font-bold text-3xl m-4 p-4",
+                children: "Contact Us Page"
+            }, void 0, false, {
+                fileName: "src/components/Contact.js",
+                lineNumber: 4,
+                columnNumber: 13
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        className: "border-2 border-black m-2 p-2",
+                        type: "text",
+                        placeholder: "Name..."
+                    }, void 0, false, {
+                        fileName: "src/components/Contact.js",
+                        lineNumber: 6,
+                        columnNumber: 17
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                        className: "border-2 border-black m-2 p-2",
+                        type: "text",
+                        placeholder: "Password..."
+                    }, void 0, false, {
+                        fileName: "src/components/Contact.js",
+                        lineNumber: 7,
+                        columnNumber: 18
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                        className: "rounded-2xl border-2 border-black m-4 p-4 bg-gray-100",
+                        type: "submit",
+                        children: "Submit"
+                    }, void 0, false, {
+                        fileName: "src/components/Contact.js",
+                        lineNumber: 8,
+                        columnNumber: 18
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/Contact.js",
+                lineNumber: 5,
+                columnNumber: 13
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/Contact.js",
+        lineNumber: 3,
+        columnNumber: 9
+    }, undefined);
+};
+_c = Contact;
+exports.default = Contact;
+var _c;
+$RefreshReg$(_c, "Contact");
+
+  $parcel$ReactRefreshHelpers$34fd.postlude(module);
+} finally {
+  globalThis.$RefreshReg$ = prevRefreshReg;
+  globalThis.$RefreshSig$ = prevRefreshSig;
+}
+},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}],"b9jHD":[function(require,module,exports,__globalThis) {
 var $parcel$ReactRefreshHelpers$e1f4 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 $parcel$ReactRefreshHelpers$e1f4.init();
 var prevRefreshReg = globalThis.$RefreshReg$;
@@ -41164,28 +41288,54 @@ var prevRefreshSig = globalThis.$RefreshSig$;
 $parcel$ReactRefreshHelpers$7f83.prelude(module);
 
 try {
+// import { useState, useEffect } from "react";
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _react = require("react");
 var _s = $RefreshSig$();
 const useRestaurantMenu = (id)=>{
     _s();
-    const [resId, setResId] = (0, _react.useState)(null);
+    const [resInfo, setResInfo] = (0, _react.useState)(null);
     (0, _react.useEffect)(()=>{
-        fetchInfo();
-    }, []);
+        if (id) fetchInfo();
+    }, [
+        id
+    ]); //⭐⭐ important: id change hote hi menu load
     const fetchInfo = async ()=>{
-        const data = await fetch("http://localhost:5000/api/restaurant/" + id);
-        const json = await data.json();
-        console.log("json data is ", json.data);
-        setResId(json.data);
+        try {
+            const response = await fetch(`http://localhost:5000/api/restaurant/${id}`);
+            const json = await response.json();
+            console.log("FULL JSON:", json);
+            if (json.data) setResInfo(json.data); //⭐ correct path
+            else {
+                console.log("\u26A0 json.data missing");
+                setResInfo(null);
+            }
+        } catch (err) {
+            console.log("\u274C Error fetching menu:", err);
+            setResInfo(null);
+        }
     };
-    // console.log("level 1 " , json);
-    console.log("menuu is", resId);
-    return resId;
+    console.log("menuu is", resInfo);
+    return resInfo;
 };
-_s(useRestaurantMenu, "m4oPnD3yPMbz9jdwl/cgNL1oVt0=");
-exports.default = useRestaurantMenu;
+_s(useRestaurantMenu, "hwGjLfSdFvMgUl5xpwSM0SJv98A=");
+exports.default = useRestaurantMenu; // const useRestaurantMenu = (id) => {
+ //     const[resId,setResId] = useState(null);
+ //     useEffect(() => {
+ //           fetchInfo(); 
+ //     },[]) 
+ //     const fetchInfo = async () => {
+ //          const data = await fetch(`http://localhost:5000/api/restaurant/${id}`) ;
+ //          const json = await data.json();
+ //          console.log("json data is ", json.data);
+ //              setResId(json.data);
+ //     }
+ //     // console.log("level 1 " , json);
+ //     console.log("menuu is",resId);
+ //     return resId;
+ // }
+ // export default useRestaurantMenu;
 
   $parcel$ReactRefreshHelpers$7f83.postlude(module);
 } finally {
@@ -41208,80 +41358,6 @@ exports.default = appStore;
 },{"@reduxjs/toolkit":"fKS5f","./cartSlice":"8EWXN","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"baeVm":[function(require,module,exports,__globalThis) {
 module.exports = import("./Grocery.390591cb.js").then(()=>module.bundle.root('cz4SJ'));
 
-},{"cz4SJ":"cz4SJ"}],"asQvq":[function(require,module,exports,__globalThis) {
-var $parcel$ReactRefreshHelpers$34fd = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-$parcel$ReactRefreshHelpers$34fd.init();
-var prevRefreshReg = globalThis.$RefreshReg$;
-var prevRefreshSig = globalThis.$RefreshSig$;
-$parcel$ReactRefreshHelpers$34fd.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-const Contact = ()=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                className: "font-bold text-3xl m-4 p-4",
-                children: "Contact Us Page"
-            }, void 0, false, {
-                fileName: "src/components/Contact.js",
-                lineNumber: 4,
-                columnNumber: 13
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("form", {
-                children: [
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                        className: "border-2 border-black m-2 p-2",
-                        type: "text",
-                        placeholder: "Name..."
-                    }, void 0, false, {
-                        fileName: "src/components/Contact.js",
-                        lineNumber: 6,
-                        columnNumber: 17
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
-                        className: "border-2 border-black m-2 p-2",
-                        type: "text",
-                        placeholder: "Password..."
-                    }, void 0, false, {
-                        fileName: "src/components/Contact.js",
-                        lineNumber: 7,
-                        columnNumber: 18
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                        className: "rounded-2xl border-2 border-black m-4 p-4 bg-gray-100",
-                        type: "submit",
-                        children: "Submit"
-                    }, void 0, false, {
-                        fileName: "src/components/Contact.js",
-                        lineNumber: 8,
-                        columnNumber: 18
-                    }, undefined)
-                ]
-            }, void 0, true, {
-                fileName: "src/components/Contact.js",
-                lineNumber: 5,
-                columnNumber: 13
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/components/Contact.js",
-        lineNumber: 3,
-        columnNumber: 9
-    }, undefined);
-};
-_c = Contact;
-exports.default = Contact;
-var _c;
-$RefreshReg$(_c, "Contact");
-
-  $parcel$ReactRefreshHelpers$34fd.postlude(module);
-} finally {
-  globalThis.$RefreshReg$ = prevRefreshReg;
-  globalThis.$RefreshSig$ = prevRefreshSig;
-}
-},{"react/jsx-dev-runtime":"dVPUn","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"7h6Pi"}]},["frqA7","hh6uc"], "hh6uc", "parcelRequire164e", {}, null, null, "http://localhost:1234")
+},{"cz4SJ":"cz4SJ"}]},["frqA7","hh6uc"], "hh6uc", "parcelRequire164e", {}, null, null, "http://localhost:1234")
 
 //# sourceMappingURL=NAMASTE-REACT.2c54e4d8.js.map
